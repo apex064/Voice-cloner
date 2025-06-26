@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Voice TTS</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        input, textarea { width: 300px; padding: 10px; margin: 10px; }
+        button { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>🗣️ Speak in Your Voice</h1>
+    <form method="POST">
+        <textarea name="text" rows="4" placeholder="Type something to say..." required></textarea><br>
+        <button type="submit">Speak</button>
+    </form>
+
+    {% if message %}
+        <p>{{ message }}</p>
+        {% if filename %}
+            <audio controls autoplay>
+                <source src="{{ url_for('serve_audio', filename=filename) }}" type="audio/mpeg">
+            </audio>
+            <p><a href="{{ url_for('serve_audio', filename=filename) }}" download>Download Audio</a></p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
