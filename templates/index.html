@@ -1,29 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Voice TTS</title>
-    <style>
-        body { font-family: Arial; text-align: center; margin-top: 50px; }
-        input, textarea { width: 300px; padding: 10px; margin: 10px; }
-        button { padding: 10px 20px; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>My Voice TTS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      margin: 0;
+      padding: 0;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #00ffe7, #ff00cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px #00ffe7;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #1a1a1a;
+      color: white;
+      resize: vertical;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(to right, #00ffe7, #ff00cc);
+      color: #0f0f0f;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffe7;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px #ff00cc, 0 0 30px #00ffe7;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #10a37f;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #0e8f70;
+    }
+
+    .message {
+      margin-top: 20px;
+      text-align: center;
+      color: #aaffff;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>🗣️ Speak in Your Voice</h1>
-    <form method="POST">
-        <textarea name="text" rows="4" placeholder="Type something to say..." required></textarea><br>
-        <button type="submit">Speak</button>
-    </form>
+  <h1>🗣️ Speak in Your Voice</h1>
 
-    {% if message %}
-        <p>{{ message }}</p>
-        {% if filename %}
-            <audio controls autoplay>
-                <source src="{{ url_for('serve_audio', filename=filename) }}" type="audio/mpeg">
-            </audio>
-            <p><a href="{{ url_for('serve_audio', filename=filename) }}" download>Download Audio</a></p>
-        {% endif %}
+  <form method="POST">
+    <textarea name="text" rows="4" placeholder="Type something to say..." required></textarea>
+    <button type="submit">🎤 Generate Voice</button>
+  </form>
+
+  {% if message %}
+    <div class="message">{{ message }}</div>
+    {% if filename %}
+      <audio controls autoplay>
+        <source src="{{ url_for('serve_audio', filename=filename) }}" type="audio/mpeg">
+        Your browser does not support audio.
+      </audio>
+      <br />
+      <a href="{{ url_for('serve_audio', filename=filename) }}" class="download-btn" download>⬇️ Download Audio</a>
     {% endif %}
+  {% endif %}
 </body>
 </html>
